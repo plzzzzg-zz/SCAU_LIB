@@ -21,66 +21,98 @@ $book_json = json_decode($book->getDetail(), JSON_UNESCAPED_UNICODE);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!--    <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>-->
-<!--    <script type="text/javascript" src="http://res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>-->
+    <!--    <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css"/>-->
+    <!--    <script type="text/javascript" src="http://res.wx.qq.com/open/libs/weuijs/1.1.2/weui.min.js"></script>-->
     <script src="vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap-grid.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <title>Document</title>
     <style>
         .border_bottom {
-            border-bottom: 2px solid rgba(82,91,92,0.52);
+            border-bottom: 2px solid rgba(82, 91, 92, 0.52);
         }
+
+        .border_top {
+            border-top: 1px solid rgba(82, 91, 92, 0.52);
+        }
+
         li {
             list-style: none;
+        }
+
+        .author {
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .info {
+            font-size: 15px;
+            padding-left: 8px;
+        }
+
+        .lend_info {
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="row clearfix" id="book_info" >
-        <div class="col-md-4 column" style="text-align: center">
-            <img style="max-height: 300px;" :src="pic_link" />
+<div class="container" id="book_info">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="text-align: center">
+            <img style="max-height: 300px;" :src="pic_link"/>
         </div>
-        <div class="col-md-8 column">
+    </div>
+    <div class="row">
+        <div class="col-md-12 column border_bottom">
             <h4 style="text-align: center">
-                {{title}}
+                《{{title}}》
             </h4>
-            <p class="text-center">
+            <p class="author">
                 {{author}}
             </p>
         </div>
-        <div class="row clearfix border_bottom" >
-            <div class="col-md-12 column  text-center">
-                <ul>
-                    <li>ISBN: {{isbn}}</li>
-                    <li>出版社: {{compress}}</li>
-                </ul>
-            </div>
-        </div>
-        <lend_info
-                v-for="info in lend_info"
-                v-bind:info="info"
-                v-bind:key="info.id"
-        >
-        </lend_info>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 column border_bottom">
+            <ul class="info">
+                <li>ISBN: {{isbn}}</li>
+                <li>出版社: {{compress}}</li>
+            </ul>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>馆藏地</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="info in lend_info" class="lend_info border_top">
+            <td>{{info.location}}</td>
+            <td>{{info.status}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </div>
 </body>
 </html>
 
 <script>
     //    component 要在实例前面
-    Vue.component('lend_info', {
-        props: ['info'],
-        //template 只识别一个外围标签，所以把东西括起来
-        template: '<div class="row clearfix">' +
-        '            <div class="col-md-6 column">' +
-        '            馆藏地: {{info.location}}</div>' +
-        '            <div class="col-md-6 column">' +
-        '            状态: {{info.status}}</div>' +
-        '        </div>'
-    });
+    //    Vue.component('lend_info', {
+    //        props: ['info'],
+    //        //template 只识别一个外围标签，所以把东西括起来
+    //        template:
+    //        '            <td>{{info.location}}</td>' +
+    //        '            <td>{{info.status}}</td>'
+    //    });
     book_json = <?php echo $book->getDetail();?>;
     console.log(book_json);
     // 豆瓣api不支持跨域，所以用了https://bird.ioliu.cn/ 的接口代理
