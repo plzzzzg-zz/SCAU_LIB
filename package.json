@@ -1,0 +1,16 @@
+{
+  "name": "learnvue",
+  "version": "1.0.0",
+  "description": "learnvue",
+  "main": "vue.min.js",
+  "dependencies": {
+    "jsonp": "^0.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm install jsonp --save"
+  },
+  "author": "plzzzzg",
+  "license": "ISC",
+  "private": true
+}
